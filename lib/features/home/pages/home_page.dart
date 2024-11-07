@@ -1,5 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
+// la clase PetGrid esta en  ../publicaciones/publicaciones.dart
+import 'package:app_pets/features/publicaciones/publicaciones.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Text("Inicio"),
+    PetGrid(),
     Text("Listado"),
     Text("Perfil"),
   ];
