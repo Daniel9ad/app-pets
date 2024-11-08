@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:app_pets/data/models/pet.dart';
-import 'package:app_pets/data/api/pet_service.dart';
+import 'package:app_pets/data/api/users.dart';
 import 'package:app_pets/features/publicaciones/Widget/pet_card.dart';
 
 
@@ -25,7 +25,7 @@ class _PetGridState extends State<PetGrid> {
 
 Future<void> fetchPets() async {
   try {
-    final petService = PetService();
+    final petService = UserApi();
     pets = await petService.fetchAvailablePets();  // Usa la instancia aquí
     setState(() {
       isLoading = false;
