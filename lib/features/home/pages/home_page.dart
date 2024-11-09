@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:app_pets/features/publicaciones/pages/pet_grid.dart';
+// import 'package:app_pets/features/publicaciones/pages/pet_filter.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   static const List<Widget> _pages = <Widget>[
     PetGrid(),
-    Text("Listado"),
+   Text("Listado"),
     Text("Perfil"),
   ];
 

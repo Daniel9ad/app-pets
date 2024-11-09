@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:app_pets/data/models/pet.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 
@@ -16,8 +17,12 @@ class PetCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+        
+        
+          
           _buildImage(),
-          _buildPetDetails(),
+          Expanded(child: _buildPetDetails()),
+          
         ],
       ),
     );
@@ -37,26 +42,38 @@ class PetCard extends StatelessWidget {
             height: 150,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Image.asset(
-              'assets/placeholder.png',
+              'assets/image.png',
               width: double.infinity,
-              height: 150,
+              height:150,
               fit: BoxFit.cover,
             ),
           ),
         ),
+    
         Positioned(
           bottom: 8,
           right: 8,
-          child: IconButton(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+             
+            ),
+             width: 40,
+             height: 40,
+             
+            child: IconButton(
             icon: const Icon(
               Icons.favorite_border,
               color: Colors.redAccent,
+            
             ),
             onPressed: () {},
           ),
+          ),
         ),
-        if (pet.isPerfectMatch)
-          Positioned(
+        pet.enAdopcion 
+          ? Positioned(
             top: 8,
             left: 8,
             child: Container(
@@ -66,7 +83,26 @@ class PetCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
-                'Perfect Match',
+                'En adopción',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          )
+        : Positioned(
+            top: 8,
+            left: 8,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                'Adoptado',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -75,13 +111,16 @@ class PetCard extends StatelessWidget {
               ),
             ),
           ),
+
+         
       ],
     );
   }
 
   Widget _buildPetDetails() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  return Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -100,14 +139,39 @@ class PetCard extends StatelessWidget {
             ),
           ),
           Text(
-            pet.distance,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
+            '${pet.distance}',
+            style: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 14,
             ),
           ),
+         
+        Center(
+          child:ElevatedButton(
+  style: ElevatedButton.styleFrom(
+   backgroundColor: Color.fromRGBO(155, 60, 130, 1), 
+                  foregroundColor : Colors.white, 
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+
+  ),
+  onPressed: () { 
+//  Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => DetallesScreen(petId: pet.id),
+//                     ),
+//                   );
+
+  },
+  child: Text('ver detalles'),
+),
+      
+
+        ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
