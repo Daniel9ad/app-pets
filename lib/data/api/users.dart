@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:app_pets/core/constants.dart';
 import 'package:app_pets/data/models/user.dart';
+import 'package:app_pets/data/models/pet.dart';
+import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 
 class UserApi {
@@ -24,4 +26,7 @@ class UserApi {
       throw Exception(body['message']);
     }
   }
+
+
+
 }
