@@ -23,7 +23,7 @@ class _PetGridState extends State<PetGrid> {
   Future<void> fetchPets() async {
     try {
       final response = await http.get(Uri.parse('http://localhost:8000/api/publicaciones/disponibles'));
-print(response.body);
+//print(response.body);
 
       if (response.statusCode == 200) {
         setState(() {
