@@ -1,67 +1,70 @@
 class PublicationDetail {
-  final int id;
   final String titulo;
   final String descripcion;
   final String raza;
   final int edad;
-  final int cantidad_machos;
-  final int cantidad_hembras;
+  final int cantidadMachos;
+  final int cantidadHembras;
   final String telefono;
-  final DateTime fecha_publicacion;
+  final DateTime fechaPublicacion;
   final int estado;
-  final int usuario_id;
-  final int ciudad_id;
-  final int especie_id;
+  final String ciudad;
+  final String usuario;
+  final String especie;
+  final List<String> imagenes;
 
   PublicationDetail({
-    required this.id,
     required this.titulo,
     required this.descripcion,
     required this.raza,
     required this.edad,
-    required this.cantidad_machos,
-    required this.cantidad_hembras,
+    required this.cantidadMachos,
+    required this.cantidadHembras,
     required this.telefono,
-    required this.fecha_publicacion,
+    required this.fechaPublicacion,
     required this.estado,
-    required this.usuario_id,
-    required this.ciudad_id,
-    required this.especie_id,
+    required this.ciudad,
+    required this.usuario,
+    required this.especie,
+    required this.imagenes,
   });
 
   factory PublicationDetail.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] ?? {};
     return PublicationDetail(
-      id: json['id'],
-      titulo: json['titulo'] ?? 'Sin título',
-      descripcion: json['descripcion'] ?? 'Sin descripción',
-      raza: json['raza'] ?? 'Sin raza',
-      edad: json['edad'] ?? 0,
-      cantidad_machos: json['cantidad_machos'] ?? 0,
-      cantidad_hembras: json['cantidad_hembras'] ?? 0,
-      telefono: json['telefono'] ?? 'Sin teléfono',
-      fecha_publicacion: json['fecha_publicacion'] != null ? DateTime.parse(json['fecha_publicacion']) : DateTime.now(),
-      estado: json['estado'] ?? 1,
-      usuario_id: json['usuario_id'],
-      ciudad_id: json['ciudad_id'],
-      especie_id: json['especie_id'],
+      titulo: data['titulo'] ?? 'Sin título',
+      descripcion: data['descripcion'] ?? 'Sin descripción',
+      raza: data['raza'] ?? 'Sin raza',
+      edad: data['edad'] ?? 0,
+      cantidadMachos: data['cantidad_machos'] ?? 0,
+      cantidadHembras: data['cantidad_hembras'] ?? 0,
+      telefono: data['telefono'] ?? 'Sin teléfono',
+      fechaPublicacion: data['fecha_publicacion'] != null
+          ? DateTime.parse(data['fecha_publicacion'])
+          : DateTime.now(),
+      estado: data['estado'] ?? 0,
+      ciudad: data['ciudad'] ?? 'Sin ciudad',
+      usuario: data['usuario'] ?? 'Sin usuario',
+      especie: data['especie'] ?? 'Sin especie',
+      imagenes: (data['imagenes'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'titulo': titulo,
       'descripcion': descripcion,
       'raza': raza,
       'edad': edad,
-      'cantidad_machos': cantidad_machos,
-      'cantidad_hembras': cantidad_hembras,
+      'cantidad_machos': cantidadMachos,
+      'cantidad_hembras': cantidadHembras,
       'telefono': telefono,
-      'fecha_publicacion': fecha_publicacion.toIso8601String(),
+      'fecha_publicacion': fechaPublicacion.toIso8601String(),
       'estado': estado,
-      'usuario_id': usuario_id,
-      'ciudad_id': ciudad_id,
-      'especie_id': especie_id,
+      'ciudad': ciudad,
+      'usuario': usuario,
+      'especie': especie,
+      'imagenes': imagenes,
     };
   }
 }

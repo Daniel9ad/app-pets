@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app_pets/data/api/publication_detail.dart';
 import 'package:app_pets/data/models/publication_detail.dart';
-import 'package:logger/logger.dart';
+//import 'package:logger/logger.dart';
 
 class PublicationDetailPage extends StatefulWidget {
   final int publicationId;
@@ -17,14 +18,13 @@ class _PublicationDetailPageState extends State<PublicationDetailPage> {
 
   @override
   void initState() {
+    //Logger().i('Iniciando la carga de la publicación con ID: ${widget.publicationId}');
     super.initState();
-    Logger().i('Iniciando la carga de la publicación con ID: ${widget.publicationId}');
     publicationFuture = PublicationApi().getPublicationById(widget.publicationId);
-
     publicationFuture.then((value) {
-      Logger().i('Publicación cargada: ${value.toJson()}');
+      //Logger().i('Publicación cargada: $value');
     }).catchError((error) {
-      Logger().e('Error al cargar la publicación: $error');
+      //Logger().e('Error al cargar la publicación: $error');
     });
   }
 
@@ -43,23 +43,38 @@ class _PublicationDetailPageState extends State<PublicationDetailPage> {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final publication = snapshot.data!;
-            Logger().i('Detalles de la publicación: ${publication.toJson()}');
+            //Logger().i('Detalles de la publicación: $publication');
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 250.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/placeholder.png'),
-                        fit: BoxFit.cover,
+                  if (publication.imagenes.isNotEmpty)
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        height: 250.0,
+                        enlargeCenterPage: true,
+                        enableInfiniteScroll: false,
                       ),
+                      items: publication.imagenes.map((url) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Image.network(
+                                url,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
                     ),
-                  ),
                   const SizedBox(height: 20),
                   Text(
                     publication.titulo,
@@ -82,7 +97,7 @@ class _PublicationDetailPageState extends State<PublicationDetailPage> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Ciudad: ${publication.ciudad_id}',
+                    'Ciudad: ${publication.ciudad}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 20),
@@ -92,7 +107,22 @@ class _PublicationDetailPageState extends State<PublicationDetailPage> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Publicado el: ${publication.fecha_publicacion.toLocal().toString().split(' ')[0]}',
+                    'Usuario: ${publication.usuario}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Especie: ${publication.especie}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Estado: ${publication.estado == 1 ? "Activo" : "Inactivo"}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Publicado el: ${publication.fechaPublicacion.toLocal().toString().split(' ')[0]}',
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
