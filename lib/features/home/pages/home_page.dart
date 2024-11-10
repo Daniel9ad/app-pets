@@ -1,6 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
-
 import 'package:app_pets/features/publicaciones/pages/pet_grid.dart';
 // import 'package:app_pets/features/publicaciones/pages/pet_filter.dart';
 
@@ -18,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   static const List<Widget> _pages = <Widget>[
     PetGrid(),
    Text("Listado"),
-    Text("Perfil"),
+   Text("Perfil"),
   ];
 
   void _onItemTapped(int index) {
