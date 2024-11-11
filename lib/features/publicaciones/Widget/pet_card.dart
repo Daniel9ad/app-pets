@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:app_pets/data/models/pet.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:app_pets/features/publicaciones/pages/publication_detail_page.dart';
 
 
 
@@ -146,28 +147,31 @@ class PetCard extends StatelessWidget {
             ),
           ),
          
-        Center(
-          child:ElevatedButton(
-  style: ElevatedButton.styleFrom(
+
+       Center(
+  child: Builder(
+    builder: (BuildContext context) {
+      return ElevatedButton(
+                   style: ElevatedButton.styleFrom(
    backgroundColor: Color.fromRGBO(155, 60, 130, 1), 
                   foregroundColor : Colors.white, 
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
 
   ),
-  onPressed: () { 
-//  Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => DetallesScreen(petId: pet.id),
-//                     ),
-//                   );
-
-  },
-  child: Text('ver detalles'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PublicationDetailPage(publicationId: pet.id),
+            ),
+          );
+        },
+        child: const Text('ver detalles'),
+      );
+    },
+  ),
 ),
-      
 
-        ),
         ],
       ),
     ),
