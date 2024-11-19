@@ -56,8 +56,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         // Botón flotante solo visible en la pestaña de Listado
-        floatingActionButton: _selectedIndex == 1
+        floatingActionButton: _selectedIndex == 0
             ? FloatingActionButton(
+              backgroundColor: Colors.orange,
                 onPressed: () {
                   Navigator.push(
                     context,

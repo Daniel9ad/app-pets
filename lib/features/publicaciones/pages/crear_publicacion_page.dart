@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:app_pets/data/api/publicacion_api.dart';
 import 'package:app_pets/data/models/PublicacionModel.dart';
-import 'package:logger/logger.dart';
 import 'dart:convert';
-
 
 class CrearPublicacionPage extends StatefulWidget {
   @override
@@ -22,37 +21,55 @@ class _CrearPublicacionPageState extends State<CrearPublicacionPage> {
     cantidadMachos: 0,
     cantidadHembras: 0,
     telefono: '',
-    usuarioId: 1, // Cambia este valor según la lógica de tu aplicación
-    ciudadId: 1,  // Cambia este valor según tu aplicación
-    especieId: 1, // Cambia este valor según tu aplicación
+    usuarioId: 1,
+    ciudadId: 1,
+    especieId: 1,
   );
   final List<File> _imagenes = [];
   bool _isLoading = false;
 
   final PublicacionApi _api = PublicacionApi();
 
+  // Listas para las opciones de ciudad y especie
+  final Map<int, String> _ciudades = {
+    1: 'La Paz',
+    2: 'Cochabamba',
+    3: 'Santa Cruz',
+    4: 'Oruro',
+    5: 'Potosí',
+    6: 'Tarija',
+    7: 'Sucre',
+    8: 'Beni',
+    9: 'Pando',
+  };
 
-Future<void> _pickImages() async {
-  try {
-    final picker = ImagePicker();
-    final pickedFiles = await picker.pickMultiImage();
+  final Map<int, String> _especies = {
+    1: 'Perro',
+    2: 'Gato',
+    3: 'Otro',
+  };
 
-    if (pickedFiles != null) {
-      setState(() {
-        _imagenes.addAll(pickedFiles.map((file) => File(file.path)));
-      });
-    } else {
+  Future<void> _pickImages() async {
+    try {
+      final picker = ImagePicker();
+      final pickedFiles = await picker.pickMultiImage();
+
+      if (pickedFiles != null) {
+        setState(() {
+          _imagenes.addAll(pickedFiles.map((file) => File(file.path)));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("No se seleccionaron imágenes")),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("No se seleccionaron imágenes")),
+        SnackBar(content: Text("Error al seleccionar imágenes: $e")),
       );
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error al seleccionar imágenes: $e")),
-    );
   }
-}
-  // Método para enviar el formulario
+
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -75,7 +92,7 @@ Future<void> _pickImages() async {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Publicación creada exitosamente")),
         );
-        Navigator.pop(context); // Regresa a la pantalla anterior
+        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error al crear publicación")),
@@ -106,23 +123,39 @@ Future<void> _pickImages() async {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // Título
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Título"),
+                        decoration: InputDecoration(
+                          labelText: "Título",
+                          prefixIcon: Icon(FontAwesomeIcons.pen),
+                        ),
                         validator: (value) => value!.isEmpty ? "Campo requerido" : null,
                         onSaved: (value) => _publicacion.titulo = value!,
                       ),
+                      // Descripción
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Descripción"),
+                        decoration: InputDecoration(
+                          labelText: "Descripción",
+                          prefixIcon: Icon(FontAwesomeIcons.fileLines),
+                        ),
                         validator: (value) => value!.isEmpty ? "Campo requerido" : null,
                         onSaved: (value) => _publicacion.descripcion = value!,
                       ),
+                      // Raza
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Raza"),
+                        decoration: InputDecoration(
+                          labelText: "Raza",
+                          prefixIcon: Icon(FontAwesomeIcons.dog),
+                        ),
                         validator: (value) => value!.isEmpty ? "Campo requerido" : null,
                         onSaved: (value) => _publicacion.raza = value!,
                       ),
+                      // Edad
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Edad"),
+                        decoration: InputDecoration(
+                          labelText: "Edad",
+                          prefixIcon: Icon(FontAwesomeIcons.cakeCandles),
+                        ),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) return "Campo requerido";
@@ -131,8 +164,12 @@ Future<void> _pickImages() async {
                         },
                         onSaved: (value) => _publicacion.edad = int.parse(value!),
                       ),
+                      // Cantidad de Machos
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Cantidad de Machos"),
+                        decoration: InputDecoration(
+                          labelText: "Cantidad de Machos",
+                          prefixIcon: Icon(FontAwesomeIcons.mars),
+                        ),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) return "Campo requerido";
@@ -141,8 +178,12 @@ Future<void> _pickImages() async {
                         },
                         onSaved: (value) => _publicacion.cantidadMachos = int.parse(value!),
                       ),
+                      // Cantidad de Hembras
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Cantidad de Hembras"),
+                        decoration: InputDecoration(
+                          labelText: "Cantidad de Hembras",
+                          prefixIcon: Icon(FontAwesomeIcons.venus),
+                        ),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value!.isEmpty) return "Campo requerido";
@@ -151,13 +192,62 @@ Future<void> _pickImages() async {
                         },
                         onSaved: (value) => _publicacion.cantidadHembras = int.parse(value!),
                       ),
+                      // Teléfono
                       TextFormField(
-                        decoration: InputDecoration(labelText: "Teléfono"),
+                        decoration: InputDecoration(
+                          labelText: "Teléfono",
+                          prefixIcon: Icon(FontAwesomeIcons.phone),
+                        ),
                         keyboardType: TextInputType.phone,
                         validator: (value) => value!.isEmpty ? "Campo requerido" : null,
                         onSaved: (value) => _publicacion.telefono = value!,
                       ),
+                      // Selector de Ciudad
+                      DropdownButtonFormField<int>(
+                        decoration: InputDecoration(
+                          labelText: "Ciudad",
+                          prefixIcon: Icon(FontAwesomeIcons.city),
+                        ),
+                        value: _publicacion.ciudadId,
+                        items: _ciudades.entries
+                            .map((entry) => DropdownMenuItem<int>(
+                                  value: entry.key,
+                                  child: Text(entry.value),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _publicacion.ciudadId = value!;
+                          });
+                        },
+                      ),
+                      // Selector de Especie
+                      DropdownButtonFormField<int>(
+                        decoration: InputDecoration(
+                          labelText: "Especie",
+                          prefixIcon: Icon(FontAwesomeIcons.paw),
+                        ),
+                        value: _publicacion.especieId,
+                        items: _especies.entries
+                            .map((entry) => DropdownMenuItem<int>(
+                                  value: entry.key,
+                                  child: Text(entry.value),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _publicacion.especieId = value!;
+                          });
+                        },
+                      ),
+                      // Botón para seleccionar imágenes
                       ElevatedButton(
+                         style: ElevatedButton.styleFrom(
+   backgroundColor: Color.fromRGBO(155, 60, 130, 1), 
+                  foregroundColor : Colors.white, 
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+
+  ), 
                         onPressed: _pickImages,
                         child: Text("Seleccionar Imágenes"),
                       ),
@@ -169,7 +259,14 @@ Future<void> _pickImages() async {
                               .toList(),
                         ),
                       SizedBox(height: 16),
+                      // Botón para enviar formulario
                       ElevatedButton(
+                         style: ElevatedButton.styleFrom(
+   backgroundColor: Color.fromRGBO(155, 60, 130, 1), 
+                  foregroundColor : Colors.white, 
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+
+  ),
                         onPressed: _submitForm,
                         child: Text("Publicar"),
                       ),
