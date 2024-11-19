@@ -1,7 +1,10 @@
+import 'package:app_pets/features/publicaciones/Widget/carousel.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app_pets/data/api/publication_detail.dart';
 import 'package:app_pets/data/models/publication_detail.dart';
+
+import '../Widget/detail_publication.dart';
+
 //import 'package:logger/logger.dart';
 
 class PublicationDetailPage extends StatefulWidget {
@@ -51,80 +54,20 @@ class _PublicationDetailPageState extends State<PublicationDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (publication.imagenes.isNotEmpty)
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        height: 250.0,
-                        enlargeCenterPage: true,
-                        enableInfiniteScroll: false,
-                      ),
-                      items: publication.imagenes.map((url) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Image.network(
-                                url,
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ),
+                  PublicationCarousel(images: publication.imagenes),
                   const SizedBox(height: 20),
-                  Text(
-                    publication.titulo,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Descripción: ${publication.descripcion}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Edad: ${publication.edad} años',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Raza: ${publication.raza}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Ciudad: ${publication.ciudad}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Teléfono de contacto: ${publication.telefono}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Usuario: ${publication.usuario}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Especie: ${publication.especie}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Estado: ${publication.estado == 1 ? "Activo" : "Inactivo"}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Publicado el: ${publication.fechaPublicacion.toLocal().toString().split(' ')[0]}',
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  PublicationInfo(
+                  titulo: publication.titulo,
+                  descripcion: publication.descripcion,
+                  edad: publication.edad,
+                  raza: publication.raza,
+                  ciudad: publication.ciudad,
+                  telefono: publication.telefono,
+                  usuario: publication.usuario,
+                  especie: publication.especie,
+                  estado: publication.estado,
+                  fechaPublicacion: publication.fechaPublicacion,
+                ),
                 ],
               ),
             );

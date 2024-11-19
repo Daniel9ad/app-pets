@@ -31,8 +31,7 @@ class _CrearPublicacionPageState extends State<CrearPublicacionPage> {
 
   final PublicacionApi _api = PublicacionApi();
 
-  // Método para seleccionar imágenes del dispositivo
- 
+
 Future<void> _pickImages() async {
   try {
     final picker = ImagePicker();
