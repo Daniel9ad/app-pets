@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+//import 'package:logger/logger.dart';
 import 'package:app_pets/data/models/pet.dart';
 
 import 'package:app_pets/data/api/hook_publicaciones.dart';
