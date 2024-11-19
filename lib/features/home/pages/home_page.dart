@@ -1,8 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:app_pets/features/publicaciones/pages/pet_grid.dart';
-// import 'package:app_pets/features/publicaciones/pages/pet_filter.dart';
-
+import 'package:app_pets/features/publicaciones/pages/crear_publicacion_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,8 +14,8 @@ class _HomePageState extends State<HomePage> {
 
   static const List<Widget> _pages = <Widget>[
     PetGrid(),
-   Text("Listado"),
-   Text("Perfil"),
+    Text("Listado"),
+    Text("Perfil"),
   ];
 
   void _onItemTapped(int index) {
@@ -45,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.home),
-              label: 'Incio',
+              label: 'Inicio',
             ),
             NavigationDestination(
               icon: Icon(Icons.list),
@@ -56,7 +54,20 @@ class _HomePageState extends State<HomePage> {
               label: 'Perfil',
             ),
           ],
-        )
+        ),
+        // Botón flotante solo visible en la pestaña de Listado
+        floatingActionButton: _selectedIndex == 1
+            ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CrearPublicacionPage()),
+                  );
+                },
+                child: const Icon(Icons.add),
+                tooltip: 'Crear Publicación',
+              )
+            : null,
       ),
     );
   }
