@@ -158,20 +158,19 @@ class PetCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
 
   ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PublicationDetailPage(publicationId: pet.id),
-            ),
-          );
-        },
-        child: Text('ver detalles'),
-      );
-    },
-  ),
-),
+  onPressed: () { 
+//  Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => DetallesScreen(petId: pet.id),
+//                     ),
+//                   );
 
+  },
+  child: Text('ver detalles'),
+),
+      
+        ),
         ],
       ),
     ),
