@@ -10,44 +10,37 @@ class PetFilter extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-           _buildFilterButton(
-          icon: 'assets/icons/All_icon.png', 
-         
+        _buildFilterButton(
+          icon: 'assets/icons/All_icon.png',
           filterId: 0,
         ),
         const SizedBox(width: 20),
         _buildFilterButton(
-          icon: 'assets/icons/Dog_icon.png', 
-          
+          icon: 'assets/icons/Dog_icon.png',
           filterId: 1,
         ),
         const SizedBox(width: 20),
         _buildFilterButton(
-           icon: 'assets/icons/Cat_icon.png', 
-       
+          icon: 'assets/icons/Cat_icon.png',
           filterId: 2,
         ),
-                
-
-     
       ],
     );
   }
 
-  Widget _buildFilterButton({required String  icon,   required int filterId}) {
+  Widget _buildFilterButton({required String icon, required int filterId}) {
     return GestureDetector(
       onTap: () {
-        onFilterSelected(filterId); 
+        onFilterSelected(filterId);
       },
       child: Column(
         children: [
           Image.asset(
             icon,
-            width: 50, 
+            width: 50,
             height: 50,
-            color: Colors.purple, 
+            color: Colors.purple,
           ),
-          
         ],
       ),
     );

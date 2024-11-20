@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-//import 'package:logger/logger.dart';
+import 'package:logger/logger.dart';
 import 'package:app_pets/data/models/pet.dart';
 
 import 'package:app_pets/data/api/hook_publicaciones.dart';
@@ -9,42 +9,46 @@ import 'package:app_pets/features/publicaciones/Widget/pet_filter.dart';
 
 
 class PetGrid extends StatefulWidget {
-  const PetGrid({Key? key}) : super(key: key);
+  const PetGrid({super.key});
 
   @override
-  _PetGridState createState() => _PetGridState();
+  PetGridState createState() => PetGridState();
 }
 
-class _PetGridState extends State<PetGrid> {
+class PetGridState extends State<PetGrid> {
   List<Pet> pets = [];
-  bool isLoading = true;
+  bool isLoading = false;
   int especieId = 0;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      isLoading = true;
+    });
     fetchPets();
   }
 
-Future<void> fetchPets([int? especieId]) async {
-  try {
-    final petService = PublicacionesApi();
-    pets = await petService.fetchAvailablePets(especieId); 
-    setState(() {
-      isLoading = false;
-    });
-  } catch (e) {
-    // Logger().e('Error: $e');
-    setState(() {
-      isLoading = false;
-    });
+  Future<void> fetchPets([int? especieId]) async {
+    try {
+      final petService = PublicacionesApi();
+      List<Pet> petsNew = await petService.fetchAvailablePets(especieId); 
+      setState(() {
+        pets = petsNew;
+        isLoading = false;
+      });
+    } catch (e) {
+      // Logger().e('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
-}
 
   void _onFilterSelected(int filterId) {
-   
     fetchPets(filterId); 
   }
+
   @override
   Widget build(BuildContext context) {
   return Column(
