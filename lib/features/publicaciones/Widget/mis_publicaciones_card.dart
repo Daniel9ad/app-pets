@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_pets/data/models/misPublicaciones.dart';
+import 'package:app_pets/core/constants.dart';
 import 'package:http/http.dart' as http;
 
 class PublicacionCard extends StatefulWidget {
@@ -21,34 +22,48 @@ class _PublicacionCardState extends State<PublicacionCard> {
   }
 
   Future<void> cambiarEstado(BuildContext context) async {
-    final url = 'http://192.168.100.123:8000/api/publicaciones/${widget.publicacion.id}/estado';
-    final response = await http.put(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      setState(() {
-        isDisponible = !isDisponible;
+    final url = '$backendUrl/publicaciones/${widget.publicacion.id}/estado';
+    try {
+      final response = await http.put(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
       });
+
+      if (response.statusCode == 200) {
+        setState(() {
+          isDisponible = !isDisponible;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Estado cambiado correctamente')),
+        );
+      } else {
+        throw Exception('Error al cambiar el estado');
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Estado cambiado correctamente')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cambiar el estado')),
+        SnackBar(content: Text('Error: $e')),
       );
     }
   }
 
   Future<void> eliminarPublicacion(BuildContext context) async {
-    final url = 'http://192.168.100.123:8000/api/publicaciones/${widget.publicacion.id}';
-    final response = await http.delete(Uri.parse(url));
+    final url = '$backendUrl/publicaciones/${widget.publicacion.id}';
+    try {
+      final response = await http.delete(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+      });
 
-    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Publicación eliminada')),
+        );
+        // Actualiza la UI después de eliminar (si es necesario)
+        Navigator.pop(context, true); // Indica al padre que actualice la lista
+      } else {
+        throw Exception('Error al eliminar la publicación');
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Publicación eliminada')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al eliminar la publicación')),
+        SnackBar(content: Text('Error: $e')),
       );
     }
   }
@@ -135,13 +150,13 @@ class _PublicacionCardState extends State<PublicacionCard> {
                   ],
                 ),
                 const SizedBox(height: 8),
-               Text(
-  'Estado: ${isDisponible ? "Disponible" : "No disponible"}',
-  style: TextStyle(
-    fontSize: 16,
-    color: isDisponible ? Colors.green : Colors.red,
-  ),
-),
+                Text(
+                  'Estado: ${isDisponible ? "no Disponible" : " disponible"}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDisponible ? Colors.green : Colors.red,
+                  ),
+                ),
               ],
             ),
           ),
@@ -152,6 +167,7 @@ class _PublicacionCardState extends State<PublicacionCard> {
                 onPressed: () => cambiarEstado(context),
                 style: TextButton.styleFrom(
                   backgroundColor: isDisponible ? Colors.green : Colors.grey,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: Text(
                   isDisponible ? 'Desactivar' : 'Activar',
@@ -162,6 +178,7 @@ class _PublicacionCardState extends State<PublicacionCard> {
                 onPressed: () => eliminarPublicacion(context),
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
                 child: const Text(
                   'Eliminar',
