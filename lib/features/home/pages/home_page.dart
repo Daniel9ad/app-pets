@@ -5,6 +5,8 @@ import 'package:app_pets/features/login/page/login_page.dart';
 import 'package:app_pets/features/publicaciones/pages/pet_grid.dart';
 import 'package:app_pets/features/publicaciones/pages/crear_publicacion_page.dart';
 import 'package:app_pets/features/usuario/pages/profile_page.dart';
+import 'package:app_pets/features/publicaciones/pages/mis_publicaciones.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         // Páginas dinámicas
         List<Widget> pages = [
           const PetGrid(),
-          const Text("Listado"),
+          const PublicacionesPage(),
           isAuthenticated
               ? const ProfilePage(
                 //Todo: Recuperar datos del usuario

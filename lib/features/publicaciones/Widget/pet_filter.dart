@@ -13,16 +13,19 @@ class PetFilter extends StatelessWidget {
         _buildFilterButton(
           icon: 'assets/icons/All_icon.png',
           filterId: 0,
+
         ),
         const SizedBox(width: 20),
         _buildFilterButton(
           icon: 'assets/icons/Dog_icon.png',
           filterId: 1,
+
         ),
         const SizedBox(width: 20),
         _buildFilterButton(
           icon: 'assets/icons/Cat_icon.png',
           filterId: 2,
+          
         ),
       ],
     );
