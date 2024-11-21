@@ -3,6 +3,7 @@ import 'package:app_pets/core/toast.dart';
 import 'package:app_pets/features/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:app_pets/features/usuario/pages/register_user_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -141,7 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 10),
                       TextButton(
                         onPressed: () {
-                          // Navegar a la pantalla de registro
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterPage(), // Asegúrate de importar RegisterPage
+                            ),
+                          );
                         },
                         child: const Text(
                           "¿No tienes cuenta? Regístrate",
