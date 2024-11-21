@@ -19,6 +19,9 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        forceMaterialTransparency: true,
+        elevation: 0,
         title: const Text('Mi Perfil'),
       ),
       body: SingleChildScrollView(

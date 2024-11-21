@@ -37,7 +37,9 @@ class _HomePageState extends State<HomePage> {
         // Páginas dinámicas
         List<Widget> pages = [
           const PetGrid(),
-          const PublicacionesPage(),
+          isAuthenticated
+              ? const PublicacionesPage()
+              : const LoginPage(),
           isAuthenticated
               ? const ProfilePage(
                 //Todo: Recuperar datos del usuario
@@ -100,12 +102,18 @@ class _HomePageState extends State<HomePage> {
                 ? FloatingActionButton(
                     backgroundColor: Colors.orange,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CrearPublicacionPage(),
-                        ),
-                      );
+                      if (isAuthenticated){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CrearPublicacionPage(),
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          _selectedIndex = 2;
+                        });
+                      }
                     },
                     child: const Icon(Icons.add),
                     tooltip: 'Crear Publicación',
