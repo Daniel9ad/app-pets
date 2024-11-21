@@ -72,6 +72,7 @@ class PublicationInfo extends StatelessWidget {
         buildInfoRow('Edad', '$edad meses'),
         buildInfoRow('Ciudad', ciudad),
         buildInfoRow('Publicado el', DateFormat('dd-MM-yyyy').format(fechaPublicacion),),
+        
         const SizedBox(height: 20),
 
         // Botón "Contactar al dueño"

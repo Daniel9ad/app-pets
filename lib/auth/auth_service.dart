@@ -15,6 +15,11 @@ class AuthService {
     }
     return await jsonDecode(session);
   }
+  
+Future<int> getAuthenticatedUserId() async {
+  final userData = await getUserData();
+  return userData['id'];
+}
 
 
   Future<void> login(String email, String password) async {

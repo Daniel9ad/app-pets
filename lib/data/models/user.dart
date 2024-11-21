@@ -7,12 +7,14 @@ class User {
   final String telefono; 
 
   User({
+
     this.id,
     required this.nombre,
     required this.apellido,
     required this.email,
     required this.password,
     required this.telefono
+
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
