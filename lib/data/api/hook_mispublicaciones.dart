@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:app_pets/data/models/misPublicaciones.dart';
+import 'package:app_pets/core/constants.dart';
 
 class UsePublicaciones extends ChangeNotifier {
   List<Publicacion> publicaciones = [];
@@ -13,7 +14,7 @@ class UsePublicaciones extends ChangeNotifier {
 
     try {
       final response = await http.get(
-        Uri.parse('http://192.168.100.123:8000/api/publicaciones/usuario/$usuarioId'),
+        Uri.parse('$backendUrl/publicaciones/usuario/$usuarioId'),
       );
 
       if (response.statusCode == 200) {
