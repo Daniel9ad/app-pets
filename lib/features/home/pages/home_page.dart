@@ -4,7 +4,9 @@ import 'package:app_pets/auth/auth_manager.dart';
 import 'package:app_pets/features/login/page/login_page.dart';
 import 'package:app_pets/features/publicaciones/pages/pet_grid.dart';
 import 'package:app_pets/features/publicaciones/pages/crear_publicacion_page.dart';
+import 'package:app_pets/features/usuario/pages/profile_page.dart';
 import 'package:app_pets/features/publicaciones/pages/mis_publicaciones.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,8 +38,15 @@ class _HomePageState extends State<HomePage> {
         List<Widget> pages = [
           const PetGrid(),
           const PublicacionesPage(),
-          // const Text("Listado"),
-          isAuthenticated ? const Text("Perfil autenticado") : const LoginPage(),
+          isAuthenticated
+              ? const ProfilePage(
+                //Todo: Recuperar datos del usuario
+                  nombre: "Juan",
+                  apellido: "Pérez",
+                  email: "juan.perez@example.com",
+                  telefono: "123456789",
+                )
+              : const LoginPage(),
         ];
 
         return Theme(
@@ -48,22 +57,22 @@ class _HomePageState extends State<HomePage> {
               forceMaterialTransparency: true,
               elevation: 0,
               actions: [
-                isAuthenticated 
-                  ? IconButton(
-                      icon: const Icon(Icons.logout),
-                      onPressed: () async {
-                        await _authService.logout();
-                        await authManager.checkAuthState();
-                      },
-                    )
-                  : IconButton(
-                      icon: const Icon(Icons.login),
-                      onPressed: () async {
-                        setState(() {
-                          _selectedIndex = 2;
-                        });
-                      },
-                    )
+                isAuthenticated
+                    ? IconButton(
+                        icon: const Icon(Icons.logout),
+                        onPressed: () async {
+                          await _authService.logout();
+                          await authManager.checkAuthState();
+                        },
+                      )
+                    : IconButton(
+                        icon: const Icon(Icons.login),
+                        onPressed: () async {
+                          setState(() {
+                            _selectedIndex = 2;
+                          });
+                        },
+                      )
               ],
             ),
             body: pages[_selectedIndex],
